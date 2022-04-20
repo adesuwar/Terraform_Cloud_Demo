@@ -8,7 +8,7 @@ provider "aws" {
 resource "aws_vpc" "prod-vpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    Name = "production"
+    Name = "dev"
   }
 }
 
@@ -26,7 +26,7 @@ resource "aws_route_table" "prod-route-table" {
   }
 
   tags = {
-    Name = "production"
+    Name = "dev"
   }
 }
 
@@ -125,4 +125,12 @@ resource "aws_instance" "web-server-instance" {
     tags = {
         Name = "web-server"
     }            
+}
+
+terraform {
+  backend "s3" {
+    bucket = "dev-1-bucket"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+  }
 }
